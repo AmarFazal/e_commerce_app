@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../services/product_service.dart';
+import '../../services/favorite_service.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/product_card.dart';
 import '../../utils/constants.dart';
@@ -105,6 +107,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     itemCount: _filteredProducts.length,
                     itemBuilder: (context, index) {
                       final product = _filteredProducts[index];
+                      final favoriteService = Provider.of<FavoriteService>(context);
                       return ProductCard(
                         product: product,
                         onTap: () {
@@ -115,6 +118,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                   ProductDetailScreen(product: product),
                             ),
                           );
+                        },
+                        onFavoriteTap: () {
+                          favoriteService.toggleFavorite(product.id);
                         },
                       );
                     },

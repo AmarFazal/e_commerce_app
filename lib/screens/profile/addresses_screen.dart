@@ -34,19 +34,204 @@ class _AddressesScreenState extends State<AddressesScreen> {
   ];
 
   void _showAddAddressDialog() {
+    final titleController = TextEditingController();
+    final addressController = TextEditingController();
+    final cityController = TextEditingController();
+    final districtController = TextEditingController();
+    final postalController = TextEditingController();
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Add New Address'),
-        content: const Text('Address form will be here'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Title (e.g., Home, Work)',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: addressController,
+                decoration: const InputDecoration(
+                  labelText: 'Full Address',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 2,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: cityController,
+                decoration: const InputDecoration(
+                  labelText: 'City',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: districtController,
+                decoration: const InputDecoration(
+                  labelText: 'District',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: postalController,
+                decoration: const InputDecoration(
+                  labelText: 'Postal Code',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              if (titleController.text.isNotEmpty &&
+                  addressController.text.isNotEmpty) {
+                setState(() {
+                  _addresses.add({
+                    'id': DateTime.now().millisecondsSinceEpoch.toString(),
+                    'title': titleController.text,
+                    'fullAddress': addressController.text,
+                    'city': cityController.text,
+                    'district': districtController.text,
+                    'postalCode': postalController.text,
+                    'isDefault': _addresses.isEmpty,
+                  });
+                });
+                Navigator.pop(context);
+              }
+            },
             child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showEditAddressDialog(BuildContext context, Map<String, dynamic> address) {
+    final titleController = TextEditingController(text: address['title']);
+    final addressController = TextEditingController(text: address['fullAddress']);
+    final cityController = TextEditingController(text: address['city']);
+    final districtController = TextEditingController(text: address['district']);
+    final postalController = TextEditingController(text: address['postalCode']);
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Edit Address'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: addressController,
+                decoration: const InputDecoration(
+                  labelText: 'Full Address',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 2,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: cityController,
+                decoration: const InputDecoration(
+                  labelText: 'City',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: districtController,
+                decoration: const InputDecoration(
+                  labelText: 'District',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: postalController,
+                decoration: const InputDecoration(
+                  labelText: 'Postal Code',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                final index = _addresses.indexWhere(
+                  (a) => a['id'] == address['id'],
+                );
+                if (index != -1) {
+                  _addresses[index] = {
+                    ..._addresses[index],
+                    'title': titleController.text,
+                    'fullAddress': addressController.text,
+                    'city': cityController.text,
+                    'district': districtController.text,
+                    'postalCode': postalController.text,
+                  };
+                }
+              });
+              Navigator.pop(context);
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteConfirmDialog(BuildContext context, String addressId) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Address'),
+        content: const Text('Are you sure you want to delete this address?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                _addresses.removeWhere((a) => a['id'] == addressId);
+              });
+              Navigator.pop(context);
+            },
+            child: const Text(
+              'Delete',
+              style: TextStyle(color: Colors.red),
+            ),
           ),
         ],
       ),
@@ -149,12 +334,16 @@ class _AddressesScreenState extends State<AddressesScreen> {
                       Row(
                         children: [
                           TextButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              _showEditAddressDialog(context, address);
+                            },
                             icon: const Icon(Icons.edit, size: 18),
                             label: Text(localizations.edit),
                           ),
                           TextButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              _showDeleteConfirmDialog(context, address['id'] as String);
+                            },
                             icon: const Icon(Icons.delete_outline, size: 18),
                             label: Text(
                               localizations.delete,

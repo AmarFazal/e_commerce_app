@@ -10,6 +10,9 @@ import '../../widgets/product_card.dart';
 import '../../widgets/animated_card.dart';
 import '../../utils/constants.dart';
 import '../product/product_detail_screen.dart';
+import '../category/category_products_screen.dart';
+import '../products/all_products_screen.dart';
+import '../cart/cart_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -105,7 +108,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                   ],
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartScreen(),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -219,7 +229,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AllProductsScreen(
+                                title: localizations.categoriesTitle,
+                                products: ProductService.getProducts(),
+                              ),
+                            ),
+                          );
+                        },
                         child: Text(localizations.seeAll),
                       ),
                     ],
@@ -238,7 +258,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 90,
                         margin: const EdgeInsets.only(right: 12),
                         child: AnimatedCard(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CategoryProductsScreen(category: category),
+                              ),
+                            );
+                          },
                           padding: const EdgeInsets.all(8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -281,7 +308,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AllProductsScreen(
+                                title: localizations.categoriesTitle,
+                                products: ProductService.getProducts(),
+                              ),
+                            ),
+                          );
+                        },
                         child: Text(localizations.seeAll),
                       ),
                     ],
@@ -334,7 +371,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AllProductsScreen(
+                                title: localizations.categoriesTitle,
+                                products: ProductService.getProducts(),
+                              ),
+                            ),
+                          );
+                        },
                         child: Text(localizations.seeAll),
                       ),
                     ],

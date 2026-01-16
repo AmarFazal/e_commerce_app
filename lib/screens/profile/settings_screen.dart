@@ -188,7 +188,21 @@ class SettingsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           AnimatedCard(
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('App Version'),
+                  content: const Text('Version 1.0.0\n\nShopEase E-Commerce App'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              );
+            },
             child: Row(
               children: [
                 Icon(
@@ -219,7 +233,27 @@ class SettingsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           AnimatedCard(
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Privacy Policy'),
+                  content: const SingleChildScrollView(
+                    child: Text(
+                      'Privacy Policy\n\n'
+                      'We respect your privacy and are committed to protecting your personal data. '
+                      'This privacy policy explains how we collect, use, and safeguard your information when you use our app.',
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Close'),
+                    ),
+                  ],
+                ),
+              );
+            },
             child: Row(
               children: [
                 Icon(
@@ -244,7 +278,27 @@ class SettingsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           AnimatedCard(
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Terms of Service'),
+                  content: const SingleChildScrollView(
+                    child: Text(
+                      'Terms of Service\n\n'
+                      'By using this app, you agree to our terms of service. '
+                      'Please read these terms carefully before using our services.',
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Close'),
+                    ),
+                  ],
+                ),
+              );
+            },
             child: Row(
               children: [
                 Icon(

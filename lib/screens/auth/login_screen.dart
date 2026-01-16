@@ -199,7 +199,35 @@ class _LoginScreenState extends State<LoginScreen>
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: Text(localizations.forgotPassword),
+                                          content: const Text(
+                                            'Enter your email address and we will send you a password reset link.',
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(context),
+                                              child: const Text('Cancel'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text('Password reset link sent to your email!'),
+                                                    backgroundColor: Colors.green,
+                                                  ),
+                                                );
+                                              },
+                                              child: const Text('Send'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                     child: Text(localizations.forgotPassword),
                                   ),
                                 ),

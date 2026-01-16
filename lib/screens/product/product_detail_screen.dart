@@ -8,6 +8,7 @@ import '../../services/favorite_service.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/animated_button.dart';
 import '../../utils/constants.dart';
+import '../checkout/checkout_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -416,7 +417,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       Expanded(
                         child: AnimatedButton(
                           text: localizations.buyNow,
-                          onPressed: () {},
+                          onPressed: () {
+                            _addToCart();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CheckoutScreen(),
+                              ),
+                            );
+                          },
                           icon: Icons.flash_on,
                           backgroundColor: Colors.orange,
                         ),
