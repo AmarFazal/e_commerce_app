@@ -5,6 +5,10 @@ import '../../services/language_service.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/animated_card.dart';
 import '../../utils/constants.dart';
+import 'orders_screen.dart';
+import 'favorites_screen.dart';
+import 'addresses_screen.dart';
+import 'settings_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -142,7 +146,14 @@ class ProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             AnimatedCard(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const OrdersScreen(),
+                  ),
+                );
+              },
               child: Row(
                 children: [
                   Icon(
@@ -167,7 +178,14 @@ class ProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             AnimatedCard(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FavoritesScreen(),
+                  ),
+                );
+              },
               child: Row(
                 children: [
                   Icon(
@@ -192,7 +210,14 @@ class ProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             AnimatedCard(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddressesScreen(),
+                  ),
+                );
+              },
               child: Row(
                 children: [
                   Icon(
@@ -217,7 +242,14 @@ class ProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             AnimatedCard(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SettingsScreen(),
+                  ),
+                );
+              },
               child: Row(
                 children: [
                   Icon(

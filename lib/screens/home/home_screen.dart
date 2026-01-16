@@ -4,6 +4,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../services/cart_service.dart';
 import '../../services/product_service.dart';
+import '../../services/favorite_service.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/product_card.dart';
 import '../../widgets/animated_card.dart';
@@ -226,32 +227,38 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 16),
                 SizedBox(
-                  height: 100,
+                  height: 110,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: categories.length,
                     itemBuilder: (context, index) {
                       final category = categories[index];
-                      return AnimatedCard(
-                        onTap: () {},
-                        padding: const EdgeInsets.all(12),
-                        child: Container(
-                          width: 100,
+                      return Container(
+                        width: 90,
+                        margin: const EdgeInsets.only(right: 12),
+                        child: AnimatedCard(
+                          onTap: () {},
+                          padding: const EdgeInsets.all(8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
                                 category.icon,
-                                style: const TextStyle(fontSize: 32),
+                                style: const TextStyle(fontSize: 28),
                               ),
-                              const SizedBox(height: 8),
-                              Text(
-                                category.name,
-                                style: theme.textTheme.bodySmall,
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
+                              const SizedBox(height: 6),
+                              Flexible(
+                                child: Text(
+                                  category.name,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    fontSize: 11,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ],
                           ),
@@ -282,26 +289,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 16),
                 SizedBox(
-                  height: 280,
+                  height: 320,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: featuredProducts.length,
                     itemBuilder: (context, index) {
                       final product = featuredProducts[index];
-                      return Container(
+                      final favoriteService = Provider.of<FavoriteService>(context);
+                      return SizedBox(
                         width: 180,
-                        margin: const EdgeInsets.only(right: 16),
-                        child: ProductCard(
-                          product: product,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProductDetailScreen(product: product),
-                              ),
-                            );
-                          },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: ProductCard(
+                            product: product,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProductDetailScreen(product: product),
+                                ),
+                              );
+                            },
+                            onFavoriteTap: () {
+                              favoriteService.toggleFavorite(product.id);
+                            },
+                          ),
                         ),
                       );
                     },
@@ -335,13 +348,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 0.7,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
+                      childAspectRatio: 0.62,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
                     ),
                     itemCount: newProducts.length > 4 ? 4 : newProducts.length,
                     itemBuilder: (context, index) {
                       final product = newProducts[index];
+                      final favoriteService = Provider.of<FavoriteService>(context);
                       return ProductCard(
                         product: product,
                         onTap: () {
@@ -351,6 +365,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               builder: (context) => ProductDetailScreen(product: product),
                             ),
                           );
+                        },
+                        onFavoriteTap: () {
+                          favoriteService.toggleFavorite(product.id);
                         },
                       );
                     },

@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/constants.dart';
 
 class LanguageService extends ChangeNotifier {
-  Locale _locale = const Locale('tr');
+  Locale _locale = const Locale('en');
 
   Locale get locale => _locale;
   bool get isTurkish => _locale.languageCode == 'tr';

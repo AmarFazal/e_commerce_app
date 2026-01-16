@@ -5,6 +5,7 @@ class AnimatedCard extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
   final EdgeInsets? padding;
+  final EdgeInsets? margin;
   final Color? color;
   final double? elevation;
 
@@ -13,6 +14,7 @@ class AnimatedCard extends StatefulWidget {
     required this.child,
     this.onTap,
     this.padding,
+    this.margin,
     this.color,
     this.elevation,
   });
@@ -67,15 +69,18 @@ class _AnimatedCardState extends State<AnimatedCard>
       onTapCancel: _onTapCancel,
       child: ScaleTransition(
         scale: _scaleAnimation,
-        child: Card(
-          color: widget.color,
-          elevation: widget.elevation ?? AppConstants.cardElevation,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppConstants.defaultRadius),
-          ),
-          child: Padding(
-            padding: widget.padding ?? const EdgeInsets.all(AppConstants.defaultPadding),
-            child: widget.child,
+        child: Container(
+          margin: widget.margin,
+          child: Card(
+            color: widget.color,
+            elevation: widget.elevation ?? AppConstants.cardElevation,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppConstants.defaultRadius),
+            ),
+            child: Padding(
+              padding: widget.padding ?? const EdgeInsets.all(AppConstants.defaultPadding),
+              child: widget.child,
+            ),
           ),
         ),
       ),

@@ -49,7 +49,7 @@ class CartScreen extends StatelessWidget {
                   AnimatedButton(
                     text: localizations.continueShopping,
                     onPressed: () {
-                      // Bottom navigation bar will handle navigation
+                      // Will be handled by bottom navigation
                     },
                     width: 200,
                   ),

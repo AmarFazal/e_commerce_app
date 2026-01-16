@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'services/theme_service.dart';
 import 'services/language_service.dart';
 import 'services/cart_service.dart';
+import 'services/favorite_service.dart';
 import 'theme/app_theme.dart';
 import 'l10n/app_localizations.dart';
 import 'screens/auth/login_screen.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ThemeService()),
         ChangeNotifierProvider(create: (_) => LanguageService()),
         ChangeNotifierProvider(create: (_) => CartService()),
+        ChangeNotifierProvider(create: (_) => FavoriteService()),
       ],
       child: Consumer2<ThemeService, LanguageService>(
         builder: (context, themeService, languageService, child) {
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: themeService.themeMode,
-            locale: languageService.locale,
+            locale: const Locale('en'),
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,

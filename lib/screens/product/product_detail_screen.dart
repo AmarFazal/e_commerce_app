@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../models/product.dart';
 import '../../services/cart_service.dart';
+import '../../services/favorite_service.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/animated_button.dart';
 import '../../utils/constants.dart';
@@ -65,6 +66,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final favoriteService = Provider.of<FavoriteService>(context);
+    final isFavorite = favoriteService.isFavorite(widget.product.id);
 
     return Scaffold(
       body: CustomScrollView(
@@ -94,8 +97,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             actions: [
               IconButton(
-                icon: const Icon(Icons.favorite_border),
-                onPressed: () {},
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: isFavorite ? Colors.red : null,
+                ),
+                onPressed: () {
+                  favoriteService.toggleFavorite(widget.product.id);
+                },
               ),
               IconButton(
                 icon: const Icon(Icons.share_outlined),
